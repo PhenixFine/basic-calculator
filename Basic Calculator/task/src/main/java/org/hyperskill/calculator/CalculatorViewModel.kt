@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class CalculatorViewModel : ViewModel() {
+    private var previousNumber = 0.0
+    private var pendingOperation = "="
     private val result = MutableLiveData<String>()
     val getResult: LiveData<String>
         get() = result
@@ -23,5 +25,25 @@ class CalculatorViewModel : ViewModel() {
 
     fun clearPressed() {
         result.value = ""
+        previousNumber = 0.0
+        pendingOperation = "="
+    }
+
+    fun subtractPressed() {
+        if ((result.value ?: "").isEmpty()) result.value = "-" else operandPressed("-")
+    }
+
+    fun operandPressed(op: String) {
+        val value = (result.value ?: "0").toDoubleOrNull() ?: 0.0
+
+        when (pendingOperation) {
+            "=" -> previousNumber = value
+            "/" -> previousNumber = if (value == 0.0) Double.NaN else previousNumber / value
+            "*" -> previousNumber *= value
+            "-" -> previousNumber -= value
+            "+" -> previousNumber += value
+        }
+        result.value = if (op == "=") previousNumber.toString() else ""
+        pendingOperation = op
     }
 }
