@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel: CalculatorViewModel by viewModels()
         val listener = View.OnClickListener { v -> viewModel.digitPressed((v as Button).text.toString()) }
+        val opListener = View.OnClickListener { v -> viewModel.operandPressed((v as Button).text.toString()) }
 
         viewModel.getResult.observe(this, { result -> binding.editText.setText(result) })
 
@@ -34,6 +35,12 @@ class MainActivity : AppCompatActivity() {
         binding.button0.setOnClickListener { viewModel.zeroPressed() }
         binding.dotButton.setOnClickListener { viewModel.dotPressed() }
         binding.clearButton.setOnClickListener { viewModel.clearPressed() }
+        binding.subtractButton.setOnClickListener { viewModel.subtractPressed() }
+
+        setListener(binding.equalButton, opListener)
+        setListener(binding.divideButton, opListener)
+        setListener(binding.multiplyButton, opListener)
+        setListener(binding.addButton, opListener)
     }
 
     private fun setListener(button: Button, listener: View.OnClickListener) = button.setOnClickListener(listener)
