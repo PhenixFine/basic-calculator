@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         val opListener = View.OnClickListener { v -> viewModel.operandPressed((v as Button).text.toString()) }
 
         viewModel.getResult.observe(this, { result -> binding.editText.setText(result) })
+        viewModel.getHint.observe(this, { hint -> binding.editText.hint = hint })
 
         setListener(binding.button1, listener)
         setListener(binding.button2, listener)
@@ -31,12 +32,10 @@ class MainActivity : AppCompatActivity() {
         setListener(binding.button7, listener)
         setListener(binding.button8, listener)
         setListener(binding.button9, listener)
-
-        binding.button0.setOnClickListener { viewModel.zeroPressed() }
-        binding.dotButton.setOnClickListener { viewModel.dotPressed() }
-        binding.clearButton.setOnClickListener { viewModel.clearPressed() }
-        binding.subtractButton.setOnClickListener { viewModel.subtractPressed() }
-
+        setListener(binding.button0) { viewModel.zeroPressed() }
+        setListener(binding.dotButton) { viewModel.dotPressed() }
+        setListener(binding.clearButton) { viewModel.clearPressed() }
+        setListener(binding.subtractButton) { viewModel.subtractPressed() }
         setListener(binding.equalButton, opListener)
         setListener(binding.divideButton, opListener)
         setListener(binding.multiplyButton, opListener)
