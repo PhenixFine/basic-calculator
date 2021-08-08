@@ -3,6 +3,7 @@ package org.hyperskill.calculator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlin.math.absoluteValue
 
 class CalculatorViewModel : ViewModel() {
     private var previousNumber = 0.0
@@ -39,8 +40,9 @@ class CalculatorViewModel : ViewModel() {
 
     fun operandPressed(op: String) {
         val value = (result.value ?: "0").toDoubleOrNull() ?: 0.0
-        val numFormatted =
-            { (if (previousNumber.rem(1).equals(0.0)) previousNumber.toInt() else previousNumber).toString() }
+        val numFormatted = {
+            (if (previousNumber.absoluteValue.rem(1).equals(0.0)) previousNumber.toInt() else previousNumber).toString()
+        }
 
         when (pendingOperation) {
             "=" -> previousNumber = value
