@@ -13,8 +13,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
         val viewModel: CalculatorViewModel by viewModels()
         val listener = View.OnClickListener { v -> viewModel.digitPressed((v as Button).text.toString()) }
